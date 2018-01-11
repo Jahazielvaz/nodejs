@@ -1,0 +1,78 @@
+TESTING YOUR WORK:
+  node fileName (don't need to add extension)
+
+REQUIRE:
+  require("./fileName")
+MODULE.EXPORTS:
+
+  function animals(arra){
+    return "there are " + arra.length + " elements in this array";
+  }
+
+  module.exports = animals;
+
+  function adder = function(a, b){
+  return `The sum of the 2 numbers is ${a + b}`;
+  };
+
+  var pi = 3.142;
+
+
+MODULE PATTERNS: Keep in mind that module.exports is just an empty object. Which
+means that we can add properties to this object
+  EXAMPLE:
+    module.exports.propertyName = propertyValue;
+    module.exports.animals = animals; (The value being the function you want to export)
+This all means that you can add multiple exports by just creating properties for them.
+  EXAMPLE:
+    module.exports.animals = animals;
+    module.exports.adder = adder;
+    module.exports.pi = pi;
+Another way, we could do this is by simply adding module.exports to the variable we're creating
+  EXAMPLE:
+    module.exports.counter = function(arr){
+    return "There are " + arr.length + " elements in this array";
+    };
+We can also use object literal notation.
+  EXAMPLE:
+    module.exports = {
+    counter : counter,
+    adder : adder,
+    pi : pi
+    };
+
+
+THE  EVENT MODULE: Node JS comes with built in core modules, which we can also require the same way our custom modules work.
+One of these core modules is the event module.
+  EXAMPLE:
+    require("events");
+EVENTS EMITER: Just like all other modules, it returns whatever functionality comes with it. One of the things returned by this module is the events emitter.
+  We can use the events emitter in node js to create custom events, and react to those events whenever they are emitted.
+  In normal js, there's a list of events that we can access such as the click or mouseover event, but in node we can actually create the events themselves as well.
+  NOTE: The events emitter is a constructor.
+    SYNTAX:
+      var myEmitter = new events.eventEmitter();
+
+      Now we can wire-rope events to myEmitter.
+        EXAMPLE:
+          myEmitter.on("eventWeWant");
+      Now we have defined the name of the event we wish to create. Now it's time to fire the event. After emit, we can select which event we want to fire,
+      which in this case is going to be eventWeWant.
+        EXAMPLE:
+          myEmitter.emit("eventWeWant" "The event was emitted");
+
+        The first argument in the emit function is the event we want to emit, and the arguments thereafter, are whatever we pass through the anonymous function.
+        In other words, the parameters we chose to pass.
+
+CORE MODULE UTIL: Stands for utility. It has vast functionality, but one of the things it does, is it allows you to inherit certain things from objects built into node js and other objects.
+This is particularly good if you're trying to inherit a module inside a carConstructor.
+  SYNTAX:
+    var events = require("events");
+    var util = require("util");
+
+    var Person = function(name){
+    this.name = name;
+    }
+
+    DEFAULT EXAMPLE: util.inherits("ConstructorName, desiredModule")
+    APPLICATION EXAMPLE: util.inherits("Person", events.EventEmitter)

@@ -17,7 +17,7 @@ MODULE.EXPORTS:
 
   var pi = 3.142;
 
-
+////////////////////////
 MODULE PATTERNS: Keep in mind that module.exports is just an empty object. Which
 means that we can add properties to this object
   EXAMPLE:
@@ -42,6 +42,9 @@ We can also use object literal notation.
     };
 
 
+
+
+//////////////////////////////
 THE  EVENT MODULE: Node JS comes with built in core modules, which we can also require the same way our custom modules work.
 One of these core modules is the event module.
   EXAMPLE:
@@ -76,3 +79,217 @@ This is particularly good if you're trying to inherit a module inside a carConst
 
     DEFAULT EXAMPLE: util.inherits("ConstructorName, desiredModule")
     APPLICATION EXAMPLE: util.inherits("Person", events.EventEmitter)
+
+
+/////////////////////////////
+CORE MODULE FS(For reading and writing files on our computer): FS can do a lot, but in this tutorial they only talk about the reading and writing parts of it. Need to study the other stuff later.
+READING AND WRITING FILES SYNCHRONOUSLY
+  READING:
+    SYNTAX: 2 parameters. The first one takes in the file name. The second one takes in the character encoding.
+    var fs = require("fs");
+    fs.readFileSync():
+
+    The above method will go out there and read the file for you. NOTE: THIS IS SYNCHRONOUS. It won't run anything until it finishes reading.
+    This method takes in 2 parameters. The first one is the file name. The second one is the Character encoding(We're dealing with binary data. The encoding will break down all those zeros and ones. One example of Character encoding is utf8)
+      EXAMPLE:
+        fs.readFileSync("sample.txt", "utf8");
+
+        var sample = fs.readFileSync("sample.txt", "utf8");
+        console.log(sample);
+
+        The above code will read the file to you in the console.
+
+  WRITTING: 2 Parameters: The First parameter specifies where you want this file written to. The second parameter is the data we want to write in the file(which could be the name of another file stored in a variable)
+    SYNTAX:
+      fs.writeFileSync("sample2.txt", "sample.txt"); NOTE: The file first have to be read in order for fs to be able tow rite it.
+
+READING AND WRITING FILES ASYNCHRONOUSLY.
+  READING: 3 Parameters: The first 2 are the same as readFileSync. The third one takes in a callback function, in order for it to fire synchronously.
+    CALLBACK PARAMETERS: The function will take two parameters. The first one will take in an err, in case there is one. The second will take the data that we retrieve.
+    SYNTAX:
+      fs.readFile("fileName.txt", "utf8", function(err, data){
+        console.log(data);
+      });
+
+  WRITTING: Just like in the sync methods, the file first has to be read in order for it to be written, which means, you can write the file inside the readFile curly braces of the read section.
+    2 PARAMETERS: The first one is the file name and the second one is the you want to write, but since you're putting inside the read function, you can just put the self defined parameter data, and it'll write the read data.
+    EXAMPLE:
+      fs.readFile("fileName.txt", "utf8", function(err, data){
+        writeFile("newFileName.txt", data);
+      });
+
+  DELETING FILES: 1 Parameter: Passing the name of the file we wish to delete.
+    EXAMPLE:
+      fs.unlink(sample.txt);
+
+  CREATING AND REMOVE DIRECTORIES:
+    CREATING AND REMOVING SYNC
+      CREATING: 1 Parameter: We just pass in the directory name.
+        SYNTAX:
+          fs.mkdirSync("folderName")
+      DELETING: Same as creating except you use rmdir.
+        SYNTAX:
+          fs.rmdirSync("folderName");
+
+    CREATING AND REMOVING ASYNC
+      CREATING: We can do something within it's curly braces, like read a file.
+        EXAMPLE:
+          fs.mkdir("newDirectoryName", function(){
+            fs.readFile("readMe.txt", "utf", function(err, data){
+              fs.writeFile("./newDirectoryName/writeMe.txt", data)
+            })
+          })
+
+      REMOVING: Note make sure you first empty the directory, otherwise it can't remove it. See the example below.
+        EXAMPLE:
+          fs.unlink("./ImAwesome/ofCourseYouAre.vicious", function(){
+            fs.rmdir("ImAwesome");
+          })
+
+
+/////////////////////////////////
+//// CLIENT AND SERVER REQUESTS AND RESPONSES
+  PROTOCOLS: A set of communication rules, that two sides agree to use when communicating.
+
+  IP ADDRESSES: Both computers and servers have their own IP addresses.
+
+  HOW CLIENTS CONNECT TO SERVERS: The client first has to connect to the server's IP address. This is
+  going to open what's known as a SOCKET between the two computers.
+
+  SOCKET: It's basically a line of communication between 2 computers(think of it like a phone line that connects 2 phones.)
+    It's basically just a channel through which information can be sent.
+    And the information that is sent is structured via different protocols. For example http, or ftp. These protocols are like different languages, like german and italian.
+    So they could choose which protocol or language to communicate in, and each language is structured differently. Depending on what the client and the server is trying to
+    communicate with each other, we use a different protocol to structure the data or the information being sent.
+      FTP: Stands for FILE TRANSFER PROTOCOL. And it's made for that purpose.
+      HTTP: Is used for websites.
+    When the structure of the information that's being sent has been decided. the information is then sent down the socket between the 2 computers via a protocol called TCP
+      TCP: This is the socket protocol. This is the actual way that it's sent to the server or the client.
+       TCP splits the data into small little chunks, and transfers them along the socket. These small little sections are called PACKETS.
+      PACKETS: The small little chunks of data being sent via socket.
+
+  NODE JS: All of the above functionality is built within our computer, and node gives us the ability to access this functionality.
+    To output a connection between two computers, and send information between them.
+    If we run Node JS in the server; we can tell node what information we want to send out to clients. How to do this is in the very next lesson.
+    Next Tutorial we're going to create a server, and we're going to respond to requests made by the client.
+
+  PORTS: When we send a request to a server, which node js is living in, how do we know that the request is meant for node js itself, and not some other program which is also
+  running on the server instead, like an Email program for example. How do we know that we want Node JS to deal with that particular request.
+    ANSWER: Node JS and all other programs running on the server, listen to a particular port number.
+      So if a request is being sent to a particular IP address, to a particular port number on that IP. If node JS, is listening out for requests, on that port, it will respond.
+      Otherwise it wont. That's how we root our requests to node JS
+        EXAMPLE:
+          172.24.35.76:3000
+          In this example above, the numbers all the way up to the colon, makeup the IP address. The :3000 after the IP address is the port number(Keep in mind that you can change this port number)
+          So on this computer could live a variety of programs, and if node JS is listening to that particular port 3000, and a request was sent to this port :3000, then node is going to send a response.
+
+//////////////////////////////////
+////// CREATING A SERVER
+GOALS FOR THIS TUTORIAL
+1- MAKE A SERVER.
+2- GO IN THE BROWSER AND MAKE A REQUEST TO THAT SERVER.
+3- DEAL WITH THAT REQUEST IN NODE JS.
+
+MAKING THE SERVE: Use Node JS's core module called the http module. Then we can use a method given to us by http, called createServer(); and this creates a server.
+  SYNTAX:
+    var http = require("http");
+    var server = http.createServer();
+
+  The server has now been created but it currently can't do anything with the requests it receives. In order for us to set up the functionality, we need to pass a function with 2 parameters
+  req(Stands for request), and res(Stands for response)
+    EXAMPLE:
+        var server = http.createServer(req, res){
+
+        };
+
+        Whenever we send a request to this server, then the function is going to fire.
+        REQ: The request object comes loaded with details about the request that has been made.
+        RES: The response object is something we can use to send a response back to the client.
+
+  RESPONSE HEADERS: When we make a request to a server, and when we respond. As well as responding
+    with some data, or information, we also respond with headers, and on the request we can send request headers.
+    Think of headers as extra information about the request or the response: Much like in HTML you have a head section
+    which tells the browser a little more information about the page, but it's not actually shown on the browser.
+    Headers are similar.
+
+    THINGS WE CAN PUT IN THE HEADER:
+      -Content-Type: So the browser knows what to expect. Whether that's going to be plain text, or html or Json, because it's going to deal with each one in a different way,
+        For example: It renders html on a page, in a browser. It doesn't do that with plain text. With Content Type, we're telling the browser about the content.
+      -Status: We can put a status in the response header. Something like 200 which means everything was ok, or 404 if the page couldn't be found.
+
+      RESPONSE HEADERS SYNTAX: First parameter is the status. Second We'll pass in an object, and in it we'll do the Content-Type(Note: the caps matter). And the value of the content type which could be html plain json, etc
+      var server = http.createServer(req, res){
+        res.writeHead(200, {"Content-Type" : "text/plain"});
+      };
+
+      Next thing we want to do is end this response and send it to the browser, and to do that we can use a method called end in the response object. In the parenthesis, we could send back some information or data.
+        EXAMPLE:
+        var server = http.createServer(req, res){
+          res.writeHead(200, {"Content-Type" : "text/plain"});
+          res.end("My awesome response!");
+        };
+
+      SETTING UP A PORT: So now we need to set up a port for node to listen to for requests. We can use .listen, and choose the port number we want. And the IP address(Which will be the local host if you'r running a local server)
+      NOTE: req.url is a built in property we can access on the req object, which tells us the name of the url that's sending the request.
+        SYNTAX:
+          var server = http.createServer(req, res){
+            console.log("Request was made: " + req.url)
+            res.writeHead(200, {"Content-Type" : "text/plain"});
+            res.end("My awesome response!");
+          };
+
+
+          server.listen(3000, "127.0.0.1"); NOTE: You can also run localhost since it's just a local server.
+
+
+////////////////////////////////////
+/////// STREAMS AND BUFFERS:
+BUFFER: Is a temporary storage spot for a chunk of data that is being transferred from one place to another.
+  The buffer is filled with data, then passed along.
+  Transfer small chunks of data at a time.
+
+STREAM: A stream of data that flows overtime from one place to another. The stream feeds into the buffer which collects a small chunk of data together. Then when the buffer is full, it passes that chunk of data down the stream and is sent to the client.
+  EXAMPLE:
+    Streaming movies online. This is buffers and streams in action. We have the movie which is all the data we need to transfer since you want to watch it all, but we don't want to wait for all of that movie data to be sent in one shot for us to start watching it.
+    We just wait for these chunks of data to arrive, and we can start watching as they arrive. We can consume data bit by bit.
+
+    We can create streams to read and write files in node js, which because of the way streams and buffers work. Can increase the performance of your application, and that's also true when we're dealing with requests on our node server, and we're sending data back
+    to the client to be consumed. This all ties in together.
+
+STREAMS SPECIFICS:
+  -Writable streams: allow node js to write data to a stream.
+  -Readable streams: Allow node js to read data from a stream.
+  -Duplex: Can read and write to a stream.
+
+  MORE DETAILS:
+    WRITTABLE STREAMS: When we're sending a response to a client for node js. We are sending the client some data. So in this instance we are talking about a writable stream, because we're writing data to the stream.
+    READABLE STREAMS: If node was receiving data from somewhere like reading a file, or receiving a request, then this would be considered a readable stream, because it would be reading data coming from another stream.
+      We need to specify which file we want to read through the stream. We first need to use the __dirname property, and that's going to give us the current directory, and we then concactanate the file name.
+
+      READ STREAM EXAMPLE:
+        var fs = require("fs");
+
+        var myReadStream = fs.createReadStream(__dirname + '/desiredFileName.txt'); NOTE: You need the / in order for it to work, because you're using the __dirname to specify your current directory and the / tells it that you want a file that's in that particular directory.
+
+        So now this stream is going to fill up the buffer, and that buffer is going to pass the data in chunks.
+
+        IMPORTANT: The createReadStream inherits from the event emitter.
+          THERE'S ALSO A PRESET EVENT CALLED DATA. On the createReadStream: Which allows us to listen for when we receive any kind of data, or chunk.
+
+            EXAMPLE:
+              myReadStream.on("data", function(chunk){
+                console.log("New Chunk of Data");
+                console.log(chunk);
+              })
+
+              So now myReadStream is listening for data. As data passes the "data" event name fires the function, and since it's already listening for data, the parameter chunk(You can name it anything you want) is equal to the value of the data being received, or in other words, the data
+              we get will be stored in the chunk parameter. So now we can choose where we want node to read this data, which in this case it's going to be on the console.
+
+              NOTE: If we send the information like that, we're just going to get the buffer codes, but the content won't be translated to match the actual data inside, and that's because we haven't specified the character encoding. If we want the data to be displayed correctly, we need to specify
+                The character encoding.
+                  EXAMPLE:
+                    var myReadStream = fs.createReadStream(__dirname + '/desiredFileName.txt', 'utf8');
+                    myReadStream.on("data", function(chunk){
+                      console.log("New Chunk of Data");
+                      console.log(chunk);
+                    })

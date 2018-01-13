@@ -1,34 +1,10 @@
-// var Car = function(engine, body){
-//   this.engine = engine;
-//   this.wheels = [];
-//   this.body = body;
-// };
-//
-// Car.prototype.wheelGen = function(wheelSize){
-//   this.wheels.push(wheelSize);
-// }
-//
-// Car.prototype.wheelGet = function(wheelSize){
-//   return wheelGen(wheelSize);
-// }
-// var midSizeWheels = new Car();
-// midSizeWheels.wheelGen("17in");
-// // console.log(midSizeWheels.wheels);
-// //
-// // var midSizeWheels = new Car();
-// // var largeSizeWheels = new Car();
-// //
-// //
-// // midSizeWheels.wheelGen("17in");
-// // largeSizeWheels.wheelGen("20in");
-//
-// // console.log(midSizeWheels.wheels);
-// // console.log(largeSizeWheels.wheels);
-//
-//
-//
-//
-// // console.log(smallSizeWheels.wheels);
-//
-// module.exports.car  = Car;
-// // module.exports = Car.prototype.wheelGen;
+var http = require("http");
+var fs = require("fs");
+
+var myServer = http.createServer(function(req, res){
+  res.writeHead(200, {"Content-Type" : "text/html"});
+  res.end(fs.readFileSync("index.html", "utf8"));
+});
+
+myServer.listen(5000, "127.0.0.3");
+console.log("listening to port 5000");

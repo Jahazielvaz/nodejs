@@ -293,3 +293,94 @@ STREAMS SPECIFICS:
                       console.log("New Chunk of Data");
                       console.log(chunk);
                     })
+
+                So now, we can receive chunks of data, and pass it onto the user through a writable stream which we'll see in the next tutorial.
+
+      WRITABLE STREAMS: This requires where you want the file the write the info, and the file name as the parameters.
+        In order for you to actually write the content that your server is reading, you need to use the built in write() method.
+        SYNTAX
+          var myWriteStream = fs.createWriteStream(__dirname + 'writeMe.txt');
+
+          var myReadStream = fs.createReadStream(__dirname + 'readMe.txt', function(chunk){
+            console.log('New Chunk');
+            myWriteStream.write(chunk);
+          })
+
+/////////////////////////////
+PIPES: This is a shorter more elegant method for reading and writing streams than the previous one. We don't have to manually listen for data events, and we don't have to manually write to a write stream. This takes care of all that for us.
+  We still need to write the read stream, and the write stream. The change happens in the listener for data. We'll use the pipe method(We can only use this method on a read stream);
+    EXAMPLE:
+      var myReadStream = fs.createReadStream(__dirname, '/myFile.txt', 'utf8');
+      var myWriteStream = fs.createWriteStream(__dirname, '/myNewFile.txt');
+
+      myReadStream.pipe(myWriteStream);
+
+
+  WRITING TO A CLIENT!!: You need to create your server, and put the readStream inside the server function, so that you can use the built in req and res properties. Inside the readStream.pipe() instead of putting a file name, you need to put res so it could send it to the response. because the res
+    property, is a writable stream.
+      EXAMPLE:
+        var http = require('http');
+        var fs = require('fs');
+
+        var server = http.creatServer(function(req, res){
+        console.log('request has been made by: ', req.url);
+        res.writeHead(200, {'Content-Type' : 'text/html'});
+        var myReadStream = fs.createReadStream(__dirname + '/index.html', 'utf8');
+        myReadStream.pipe(res);
+        });
+
+        server.listen(5000);
+        console.log('server now running');
+
+    SERVING UP AN HTML FILE:
+      It's exactly the same as the code above, except that you need to specify in the content type that it's an html file, and write it(Note that this is not going to serve up your detached css or js files that go with your html. You need other stuff for that.);
+
+    SERVING JSON: Content-Type needs to be specified as: application/json.
+      In order to actually create the Json data chunk, you can just create an object literal, and include that data in the res.end().
+      IMPORTANT!: Your end point only takes in a string or a buffer, so we need serialize it. We need to create it into a string, and that string has to be in Json format.
+        var objectName = {
+        name: 'Josh',
+        job: 'Ninja',
+        age 38
+        }
+          SYNTAX: JSON.stringify(objectName)
+
+        API ENDPOINT: Javascript can make this kind of request. This is pretty much an api endpoint that js can make a call to.
+          EXAMPLE:
+            mywebsite.com/api/objectName (The way we'd set this up would be through routing which we'll learn more about in future tutorials.);
+
+//////////////////////////
+BASIC ROUTING: You can set up what routes you want the information to be sent to using if else statements.
+  EXAMPLE:
+    var http = require('http');
+    var fs = require('fs');
+
+    var server = http.createServer(function(req, res){
+      console.log('Request has been made: ' + req.url);
+      if(req.url === '/home' || req.url '/'){
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      fs.createReadStream(__dirname + '/index.html').pipe(res);
+      }
+    })
+
+    You can set up multiple routes using if else statements. Here's an example of multiple page routes
+      EXAMPLE:
+        var server = http.createServer(function(req, res){
+          console.log('Request has been made: ' + req.url);
+          if(req.url === '/home' || req.url === '/'){
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            fs.createReadStream(__dirname + '/craze.html', 'utf8').pipe(res);
+          } else if(req.url === '/contact'){
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            fs.createReadStream(__dirname + '/contact.html', 'utf8').pipe(res);
+          } else if (req.url === '/about'){
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            fs.createReadStream(__dirname + '/about.html', 'utf8').pipe(res);
+          } else {
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end('PAGE NOT FOUND');
+          }
+        })
+
+        server.listen(4000);
+        console.log('Server running....');

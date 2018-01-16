@@ -309,26 +309,148 @@
 
 
 var fs = require('fs');
-
-var newReadStream = fs.createReadStream(__dirname + '/rubbish.txt', 'utf8');
-
-newReadStream.on('data', function(newChunk){
-  console.log('New Stream:');
-  console.log(newChunk);
-});
+var http = require('http');
 
 
 
 
+// var newReadStream = fs.createReadStream(__dirname + '/rubbish.txt', 'utf8');
+// var newWriteStream = fs.createWriteStream(__dirname + '/newYork.txt');
+//
+// newReadStream.on('data', function(newChunk){
+//   console.log('Writing to new file');
+//   newWriteStream.write(newChunk);
+// });
+
+// var myReadStream = fs.createReadStream(__dirname + '/index.html', 'utf8');
+// var myWriteStream = fs.createWriteStream(__dirname + '/craze.html');
+//
+// myReadStream.pipe(myWriteStream);
+
+//WRITING TO THE CLIENT!!!
+// var myServer = http.createServer(function(req, res){
+//   console.log('Request has been made:', req.url);
+//   res.writeHead(200, {'Content-Type': 'text/txt'})
+//   var myReadStream = fs.createReadStream(__dirname + '/rubbish.txt', 'utf8');
+//   myReadStream.pipe(res);
+// });
+//
+// myServer.listen(5000);
+// console.log('My Server is running!');
+// //
+
+// var http = require('http');
+// var fs = require('fs');
+//
+// var server = http.createServer(function(req, res){
+//   console.log('Request has been made by: ', req.url);
+//   res.writeHead(200, {'Content-Type' : 'text/html'});
+//   var newReadStream = fs.createReadStream(__dirname + '/craze.html', 'utf8');
+//   newReadStream.pipe(res);
+// })
+//
+//
+// server.listen(3737);
+// console.log('Epic! Server is Running');
+
+// var http = require('http');
+// var fs = require('fs');
+//
+// var server = http.createServer(function(req, res){
+//   console.log('Request has been made: ' + req.url);
+//   res.writeHead(200, {'Content-Type': 'application/json'});
+//   var myObject = {
+//     name: 'Julian',
+//     job: 'Ninja',
+//     age: 23
+//   };
+//   res.end(JSON.stringify(myObject));
+// });
+//
+// console.log('Server Running...');
+// server.listen(5000);
 
 
+var http = require('http');
+var fs = require('fs');
+
+// var server = http.createServer(function(req, res){
+//   console.log('Request has been made:', req.url);
+  var weather = {
+    currentWeather: 73 + '°f',
+    city: 'Herriman',
+    state: 'Utah'
+  }
+//
+//   var john = ['John ', 34, ' teacher'];
+//   var juan = ['juan ', 32, ' pilot'];
+//   var shelly = ['shelly ', 23, ' actress'];
+//   var person = [shelly, juan, john];
+//
+//   var people = {
+//     john : person[0],
+//     juan : person[1],
+//     shelly : person[2]
+//
+//   }
+//
+//   if(req.url === '/home' || '/'){
+//     res.writeHead(200, {'Content-Type': 'application/json'});
+//     res.end(JSON.stringify(weather));
+//   } else if(req.url === '/people'){
+//     res.writeHead(200, {'Content-Type': 'application/json'});
+//     res.end(JSON.stringify(people));
+//   } else{
+//     res.writeHead(200, {'Content-Type': 'text/plain'});
+//     res.end('PAGE NOT FOUND!');
+//   };
+//
+// })
+//
+// console.log('Server Running....');
+// server.listen(9999);
 
 
+// var http = require('http');
+// var fs = require('fs');
+//
+// var server = http.createServer(function(req, res){
+//   console.log('Request has been made by: ' + req.url);
+//   if(req.url === '/home' || req.url === '/'){
+//     res.writeHead(200, {'Content-Type': 'text/html'});
+//     fs.createReadStream(__dirname + '/index.html', 'utf8').pipe(res);
+//   } else{
+//     res.writeHead(200, {'Content-Type': 'text/plain'});
+//     res.end('Page Not Available');
+//   }
+// })
+//
+// server.listen(3333);
+// console.log('Server Running');
 
 
+var server = http.createServer(function(req, res){
+  console.log('Request has been made: ' + req.url);
+  if(req.url === '/home' || req.url === '/'){
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    fs.createReadStream(__dirname + '/craze.html', 'utf8').pipe(res);
+  } else if(req.url === '/contact'){
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    fs.createReadStream(__dirname + '/contact.html', 'utf8').pipe(res);
+  } else if (req.url === '/about'){
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    fs.createReadStream(__dirname + '/about.html', 'utf8').pipe(res);
+  } else if(req.url === '/api/people'){
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(weather));
+  } else {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end('PAGE NOT FOUND');
+  }
+})
 
-
-
+server.listen(4000);
+console.log('Server running....');
 
 
 

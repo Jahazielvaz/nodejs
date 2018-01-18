@@ -308,10 +308,6 @@
 //
 
 
-var fs = require('fs');
-var http = require('http');
-
-
 
 
 // var newReadStream = fs.createReadStream(__dirname + '/rubbish.txt', 'utf8');
@@ -428,55 +424,132 @@ var fs = require('fs');
 // server.listen(3333);
 // console.log('Server Running');
 
+//
+// var server = http.createServer(function(req, res){
+//   console.log('Request has been made: ' + req.url);
+//   if(req.url === '/home' || req.url === '/'){
+//     res.writeHead(200, {'Content-Type': 'text/html'});
+//     fs.createReadStream(__dirname + '/craze.html', 'utf8').pipe(res);
+//   } else if(req.url === '/contact'){
+//     res.writeHead(200, {'Content-Type': 'text/html'});
+//     fs.createReadStream(__dirname + '/contact.html', 'utf8').pipe(res);
+//   } else if (req.url === '/about'){
+//     res.writeHead(200, {'Content-Type': 'text/html'});
+//     fs.createReadStream(__dirname + '/about.html', 'utf8').pipe(res);
+//   } else if(req.url === '/api/people'){
+//     res.writeHead(200, {'Content-Type': 'application/json'});
+//     res.end(JSON.stringify(weather));
+//   } else {
+//     res.writeHead(404, {'Content-Type': 'text/html'});
+//     fs.createReadStream(__dirname + '/404.html').pipe(res);
+//   }
+// })
+//
+// server.listen(4000);
+// console.log('Server running....');
 
-var server = http.createServer(function(req, res){
-  console.log('Request has been made: ' + req.url);
-  if(req.url === '/home' || req.url === '/'){
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    fs.createReadStream(__dirname + '/craze.html', 'utf8').pipe(res);
-  } else if(req.url === '/contact'){
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    fs.createReadStream(__dirname + '/contact.html', 'utf8').pipe(res);
-  } else if (req.url === '/about'){
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    fs.createReadStream(__dirname + '/about.html', 'utf8').pipe(res);
-  } else if(req.url === '/api/people'){
-    res.writeHead(200, {'Content-Type': 'application/json'});
-    res.end(JSON.stringify(weather));
-  } else {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end('PAGE NOT FOUND');
-  }
+
+
+
+
+// var express = require('express');
+//
+// var app = express();
+//
+// app.get('/profile/:code', function(req, res){
+//   res.send('You requested the profile with the name of ' + req.params.code );
+// });
+//
+// app.listen(5000);
+
+//EXAMPLE 2
+
+// var express = require('express');
+//
+// var app = express();
+//
+// app.get('/countries/:country', function(req, res){
+//   res.send('You have requested information for: ' + req.params.country);
+// })
+//
+// app.listen(4444);
+// console.log('server running');
+
+// var express = require('express');
+//
+// var app = express();
+//
+// app.get('/cities/:city', function(req, res){
+//   res.send('You have requested info for: ' + req.params.city);
+// })
+//
+// app.listen(7473);
+
+// var express = require('express');
+//
+// var app = express();
+//
+// app.get('/people/:name', function(req, res){
+//   res.send('Your name is: ' + req.params.name);
+// })
+//
+// app.listen(5000);
+
+//////////////// TEMPLATING ENGINES
+
+// var express = require('express');
+// var app = express();
+//
+// app.set('view engine', 'ejs');
+//
+// app.get('/', function(req, res){
+//   res.sendFile(__dirname + '/craze.html');
+// });
+//
+
+
+
+// fs.readFile('./views/profile.ejs', 'utf8', function(err, data){
+//   fs.writeFile('./views/cars.ejs', data);
+// })
+
+// var express = require('express');
+// var app = express();
+// app.set('view engine', 'ejs');
+//
+// app.get('/cars/:carName', function(req, res){
+//   res.render('cars', {carName: req.params.carName});
+// })
+//
+// app.get('/people/:names', function(req, res){
+//   res.render('profile', {person: req.params.names});
+//
+// })
+//
+// app.listen(4444);
+
+
+// var express = require('express');
+// var app = express();
+// app.set('view engine', 'ejs');
+//
+// app.get('/friends/:friendName', function(req, res){
+//   res.render('friends', {friends: req.params.friendName});
+// })
+//
+// app.listen(7000);
+
+
+var express = require('express');
+var app = express();
+
+app.set('view engine', 'ejs');
+
+app.get('/profile/:people', function(req, res){
+  res.render('profile', {names: req.params.people});
 })
 
-server.listen(4000);
-console.log('Server running....');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+app.listen(9999);
 
 
 

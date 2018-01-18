@@ -384,3 +384,78 @@ BASIC ROUTING: You can set up what routes you want the information to be sent to
 
         server.listen(4000);
         console.log('Server running....');
+
+//////////////////////////////
+EXPRESS:
+  -Easy and flexible routing system.
+  -Integrates with many templating engines
+  -Contains a middleware framework
+
+  HTTP METHODS/VERBS: They're essentially the kind of request we make.
+    Each different type of request contains a specific piece of information attached to it, to say to the server what kind of request it is, then it's up to the server
+    to look at what type of request it is, and then treat that type of request in a particular way. By using express in node, we can respond to each of these different types
+    of requests very easily. We do it by using the methods that express provides us with.
+    -GET: This is the type of request we make when we type in a url in an address bar.
+      express: app.get('route', function);
+    -POST: Generally made when we're posting data to a server for say a webform.
+      express: app.post('route', function);
+    -DELETE:
+      express: app.delete('route', function)
+    -PUT
+
+    download: npm install express -save (So that you can save it as a dependency);
+
+    SYNTAX: We first require it, and then we set up what's known as an express app. example below. Through calling this built in express function, we get access to all of
+    expresses functionality everytime we call upon it. We also need to listen to a port.
+
+    REQ AND RES: Express also uses these properties, but express has extended these properties to have more functionality.
+      Express is smart enough to know what content type we're using so we don't need to specify it.
+
+      var express = require('express');
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send('This is the homepage');
+      })
+
+      app.listen(4555);
+
+
+--------------
+EXPRESS ROUTE PARAMETERS: We can actually set up parameters for different routes so we don't have to write a method for each and every single page.
+  The way you set up a parameter, is by using the semicolon : as a path, and then you concactenate it or use it with .notation
+    EXAMPLE:
+    app.get('/profile/:id', function(req, res){
+      res.send('You requested to see a profile with the id of' + req.params.id);
+    });
+
+    NOTE: from my trials after the : you can name it anything, you just have to call the same name in .notation.
+
+
+----------------
+TEMPLATING ENGINES: If you want to send an html file, you can use the method sendFile(), with the absolute path to the file you wish to send.
+  Template engines allow us to embed data in js code into our html files. There's a variety of different engines we can use(Make sure you research them later so you can use it like a boss.);
+  EJS: This is a lightweight template engine making it really easy to get started with.
+
+  EXAMPLE:
+    app.get('/', function(req, res){
+      res.sendFile(__dirname + '/index.html');
+    })
+
+  ATTACHING DYNAMIC CONTENT TO THE PAGES WE SEND:
+    EJS: We use the $ to tell it that we plan to use EJS.
+
+    1- Install EJS(It's a package)
+    2- Tell express that we want to use EJS as our view engine: app.set('view engine', 'ejs');
+        The first parameter we specify what we want to set which in this case is the view engine, and the second one, we tell it the name of the software, which in this case it's ejs.
+        By default, when we request some views or templates, it's going to look in the /views foldert for them. That's the default behavior.
+    3- Create a views directory.
+    4- Create a new template file: new file views\fileName.ejs. The extension tells express that this is an ejs template.
+        We can do exactly the same as we can do in an html file, but now we can embed javascript and data in it.
+    5- Route your ejs file: We'll use render() instead of send file. We don't need to pass through the file path, because render knows to look in the view folder.
+        EXAMPLE:
+          app.get('/profile/:name', function(req, res){
+            res.render('profile');
+          })
+
+        app.listen(3000);

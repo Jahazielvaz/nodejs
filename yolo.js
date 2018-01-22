@@ -539,25 +539,25 @@ var fs = require('fs');
 //
 // app.listen(7000);
 
-
-var express = require('express');
-var app = express();
-
-app.set('view engine', 'ejs');
-
-app.get('/profile/:people', function(req, res){
-  res.render('profile', {names: req.params.people});
-})
-
-app.listen(9999);
-
-
-
-
-
-
-
-
+//
+// var express = require('express');
+// var app = express();
+//
+// app.set('view engine', 'ejs');
+//
+// app.get('/profile/:people', function(req, res){
+//   res.render('profile', {names: req.params.people});
+// })
+//
+// app.listen(9999);
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -588,3 +588,163 @@ app.listen(9999);
 // console.log("Listening to port 3000, enjoY");
 
 //RESPONSE IS SET UP
+
+// var express = require('express');
+// var app = express();
+// app.set('view engine', 'ejs')
+//
+// app.get('/landscapes/:name', function(req, res){
+//   console.log('Request has been made by: ' + req.url);
+//   res.render('landscapes', {placeName: req.params.name});
+// })
+//
+// app.listen(4000, function(){
+//   console.log('Server running....');
+// });
+
+
+// var express = require('express');
+// var app = express();
+// app.set('view engine', 'ejs');
+//
+// app.get('/lands/:name', function(req, res){
+//   console.log(`Request has been made by: ${req.url}`);
+//   res.render('landscapes', {lands: req.params.name});
+// })
+//
+// app.listen(3333, function(){
+//   console.log('server running....');
+// })
+
+
+// var express = require('express');
+// var app = express();
+//
+// app.set('view engine', 'ejs');
+//
+// app.get('/lands/:lalala', function(req, res){
+//   console.log(`Request has been made by ${req.url}`);
+//   res.render('landscapes', {land: req.params.lalala});
+// });
+//
+//
+// app.listen(7000, function(){
+//   console.log('Server Running....');
+// })
+
+//
+// var express = require('express');
+// var app = express();
+//
+// app.set('view engine', 'ejs');
+//
+// app.get('/jenny/:go', function(req, res){
+//   console.log(`Request has been made: ${req.url}`)
+//   res.render('friends', {how: req.params.go});
+// })
+//
+//
+// app.listen(4000);
+
+
+// var express = require('express');
+//
+// var app = express();
+//
+// app.set('view engine', 'ejs');
+//
+// app.get('/holo/:gf', function(req, res){
+//   var data = {age: 23, job: 'ninja'};
+//   var friendsList = {name1: 'John', name2: 'Chelsea', name3: 'Karen'};
+//   console.log(`Request has been made by: ${req.url}`);
+//   res.render('profile', {hg: req.params.gf, data: data, friends: friendsList});
+// })
+//
+// app.listen(5000, function(){
+//   console.log('Listening to port 5000');
+//   console.log('Server Running....');
+// })
+
+//EMBEDDING CODE
+// var express = require('express');
+// var app = express();
+//
+// app.set('view engine', 'ejs');
+//
+// app.get('/homie/:name', function(req, res){
+//   var person = {name: 'Jason', job: 'Ninja', hobbies:['eating', 'fighting', 'fishing']};
+//   console.log(`Request has been made by ${req.url}`);
+//   res.render('profile', {homies: req.params.name, name: person});
+// });
+//
+// app.listen(3000);
+// console.log('Server Running...');
+
+
+// var express = require('express');
+// var app = express();
+//
+// app.set('view engine', 'ejs');
+//
+// app.get('/parts', function(req, res){
+//   var lands = {moab: ['Zions', 'Arches', 'Canyonlands'], cali: 'San Francisco'};
+//   console.log(`Request has been made by ${req.url}`);
+//   res.render('landscapes', {landscapes: lands})
+// })
+//
+// app.listen(3000, function(){
+//   console.log('Listening to port number 3000');
+// })
+
+
+// var express = require('express');
+// var app = express();
+// app.set('view engine', 'ejs');
+//
+// app.get('/eagle/:name', function(req, res){
+//   var birds = {breeds: ['Wood Pecker', 'Humming', 'Mocking Jay'], food: 'seeds', wings: ['Diangular', 'Diagonal', 'Angular']};
+//   console.log(`Request has been made by ${req.url}`);
+//   res.render('landscapes', {birds: birds, custom: req.params.name});
+// });
+//
+// app.listen(3000, function(){
+//   console.log('Listening to port 3000');
+// });
+
+
+// var express = require('express');
+// var app = express();
+//
+// app.set('view engine', 'ejs');
+// app.use('/assets', express.static('assets'))
+//
+// app.get('/contact/:names', function(req, res){
+//   var places = {utah: ['canyonlands', 'zions', 'walters wiggles'], nj: 'canal rd'};
+//   console.log(`Request has been made: ${req.url}`);
+//   res.render('landscapes', {custom: req.params.names, places: places});
+// })
+//
+// app.get('/home/:friends', function(req, res){
+//   var friends = {names: ['Josh', 'John', 'James']}
+//   console.log(`Request has been made: ${req.url}`);
+//   res.render('profile', {homies: req.params.friends, friends: friends})
+// })
+//
+// app.listen(3000, function(){
+//   console.log('Server Running...')
+//   console.log('Listening to port 3000');
+// })
+
+
+var express = require('express');
+var app = express();
+
+app.set('view engine', 'ejs');
+app.use('/assets', express.static('assets'));
+
+app.get('/contact', function(req, res){
+  res.render('./partials/contact', {quer: req.query});
+
+});
+
+app.listen(3000);

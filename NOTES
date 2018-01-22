@@ -459,3 +459,67 @@ TEMPLATING ENGINES: If you want to send an html file, you can use the method sen
           })
 
         app.listen(3000);
+
+---------------------
+TEMPLATING ENGINES PART 2:
+  OUTPUTTING DATA: We're able to pass some JS as well as other code, not just standard data.
+    The output for outputting data is the same for code as it is for outputting data, the only difference is that with code, you don't include the equal sign.
+      EXAMPLE:
+        Data: <%= info %>
+        Code: <% code %>
+
+------------------------
+PARTIAL VIEWS: You can create partial views which means mini templates that you can include in as many as your views as you want. This is really useful so you don't have to write the same code over and over. For example: You can write a partial header, which you can include in all your files. This is also useful, if you wanted to make updates, because if you make an update to a partial, it'll update it on all the pages that contain that partial.
+  1-Create a partials directory, inside the views directory.
+  2-Create the partial fileName.ejs we wish to name it.
+  3-Write the html code you wish to write in the created partial file.
+  4-Use an include statement with the path of the partial view inside the ejs tags <% %>
+    EXAMPLE:
+      <% include partials/nav.ejs %>
+
+--------------------------
+MIDDLEWARE AND STATIC FILES
+  EXTERNAL FILES: Your external files such as css or javascript automatically transfer to the linked html or ejs file. They're like any other page in node. They're making a request to the server as well, and the request is not coming through because we haven't specified it to do so.
+
+  REQUESTS FOR STATIC FILES: While we're dealing with different url requests, we're not dealing with static file requests. If we had to create urls for all the static files, it would quickly get out of hand. There's a simple way to serve all the static files. That's one of the purposes of middleware. Express comes with built in middleware we can use.
+    MIDDLEWARE: Middleware is essentially the code that runs between the request and the response. All the code between the request and the response is middleware. We're going to use to custom middleware(Built in middleware).
+      app.use(): With this built in method we can use some middleware, and we can match it to our route if we want, or if we don't put routing, it's going to use this middleware on every request that is made, either in the browser or within the document.
+        EXAMPLE:
+          app.use('/assets', function(req, res, next){
+
+          })
+
+          NEXT PARAMETER: We use this parameter to say look, we've finished our middleware, now go on to the next set of middleware(if we have multiple middleware that matches a certain route.)
+          for example, if we had this route ('/') that would match any url that the user writes in the address bar, when they're using our application. So when we run this middleware, we need a way
+          to tell node js to go to the next middleware, or the next request/the next get method. What we need to do is, at the end of the middleware use this next();
+            EXAMPLE:
+              app.use('/', function(req, res, next)
+                THIS IS WHERE WE WOULD INCLUDE OUR MIDDLEWARE.
+                next();
+              });
+
+              if we don't put this next(); There, then potentially our future code is going to break and the application won't run.
+          --------------------
+          EXPRESSES CUSTOM MIDDLEWARE:
+            SYNTAX:
+              express.static()
+              EXAMPLE:
+                app.use('/assets', express.static())
+
+                So now we need to map the above route /assets which contains the express.static functionality, to the assets folder which contains your static files.
+                  EXAMPLE:
+                    app.use('/assets', express.static(assets))
+
+                    So now, any request that's made to /assets/somethingElse, is going to map to the assets folder and it's going to server up whatever we request.
+
+
+---------------------------
+QUERY STRINGS: Additional data, added on to an http request in the form of name value pairs.
+  -? This is how you let node know that you intend to use a query string.
+  -page = 2: This would go after the question mark. This would basically saying that it's targeting the second page of the news article.
+    EXAMPLE:
+      mysite.com/contact?person=ryu
+  -MULTIPLE QUERY STRINGS: You can have as many query strings as you want. You just have to separate them by the &(ampersand)
+    EXAMPLE:
+      mysite.com/contact?person=ryu&dept=marketing
+  -PARSE THE REQUEST, AND PULL OUT THE DATA.

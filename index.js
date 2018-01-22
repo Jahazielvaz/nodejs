@@ -1,4 +1,18 @@
+var landscapes = {
+  park1: 'Canyonlands',
+  park2: 'Arches',
+  nat1: 'Pink Forest',
+  luxur: 'underwaterHotel'
+};
 
+
+
+var output = document.getElementById('trial');
+
+output.addEventListener('click', function(){
+  var info = landscapes.forEach(data);
+  output.append(data);
+})
 
 
 

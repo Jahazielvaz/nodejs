@@ -2,3 +2,9 @@ body{
   background: lightblue;
   color: white;
 }
+
+#contact-form input{
+  border-radius: 30px;
+  display: inline-block;
+  text-align: right;
+}

@@ -522,4 +522,13 @@ QUERY STRINGS: Additional data, added on to an http request in the form of name 
   -MULTIPLE QUERY STRINGS: You can have as many query strings as you want. You just have to separate them by the &(ampersand)
     EXAMPLE:
       mysite.com/contact?person=ryu&dept=marketing
-  -PARSE THE REQUEST, AND PULL OUT THE DATA.
+  -CREATING AN OBJECT FOR IT IN RENDER:
+    EXAMPLE:
+      {nameItWhatYouWant: req.query} So the req.query, is going to listen for when query strings are called.
+  -CALLING QUERY STRINGS:
+    EXAMPLE:
+      <%= chosenObjectName.propertyYouWantToAccess %> This is just for text
+      <% This is for code snippets %>
+
+---------------------------------
+POST REQUEST

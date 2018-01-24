@@ -738,13 +738,32 @@ var fs = require('fs');
 
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
+var urlEncoded = bodyParser.urlencoded({extended: false});
 
 app.set('view engine', 'ejs');
 app.use('/assets', express.static('assets'));
 
-app.get('/contact', function(req, res){
-  res.render('./partials/contact', {quer: req.query});
+app.get('/', function(req, res){
+  console.log(`Request has been made by: ${req.url}`);
+  res.render('contact', {people: req.query})
+})
 
-});
+// app.post('/login', urlencodedParser, function(req, res){
+// if(!req.body) return res.sendStatus(400)
+// res.send('welcome ' + req.body.username)
+// })
+
+
+app.post('/', urlEncoded, function(req, res){
+  console.log(req.body);
+  res.render('contact', {people: req.query})
+})
+
+// app.get('/contact', function(req, res){
+//   res.render('./partials/contact', {quer: req.query});
+//
+// });
 
 app.listen(3000);
+console.log('Listening to port 3000')

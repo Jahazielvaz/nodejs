@@ -1,0 +1,29 @@
+*{
+	border: 0;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+header{
+	background: #333;
+	color: lightblue;
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+#form-wrapper{
+	background: lightblue;
+	padding: 20px;
+	border-radius: 30px;
+	margin: auto;
+	border: 6px double black;
+	width: 400px;
+	min-height: 300px;
+	
+}
+
+#form-wrapper input{
+	border-radius: 15px;
+	border: 2px solid black;
+}
